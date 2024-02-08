@@ -1,0 +1,9 @@
+{
+  "id": "the-bot",
+  "name": "The Bot",
+  "bio": "This is an experimental user called The Bot!",
+  "image": {
+    "src": "./images/bot.jpg",
+    "alt": "The Bot"
+  }
+}

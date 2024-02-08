@@ -1,0 +1,9 @@
+{
+  "id": "andrew-s-erwin",
+  "name": "Andrew S Erwin",
+  "bio": "Andrew a software engineer and author of this particular website",
+  "image": {
+    "src": "./images/andrew.jpg",
+    "alt": "Andrew S Erwin"
+  }
+}

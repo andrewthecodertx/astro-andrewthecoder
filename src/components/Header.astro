@@ -1,0 +1,27 @@
+---
+import { Image } from 'astro:assets'
+import port from '../images/andrewanimated.jpg'
+---
+<script>
+	document.querySelector('#toggle')?.addEventListener('click', () => {
+		document.querySelector('#menu')?.classList.toggle('-translate-y-full')
+	})
+</script>
+<header class="text-3xl py-2 md:py-0 md:text-2xl">
+  <nav class="md:flex md:justify-between">
+    <h1 class="flex items-center pl-4"><a href="/">ANDREW THE CODER</a></h1>
+    <div id="menu" class="absolute -translate-y-full top-0 left-0 p-12
+      w-screen h-screen bg-[#c8c8c8] opacity-80 transition-transform duration-300 ease-in-out
+      md:relative md:translate-y-0 md:w-2/5 md:h-full md:bg-white md:p-0 lg:w-2/6">
+      <div id="menu__items" class="flex flex-col items-center md:flex-row md:justify-between md:pr-4">
+        <Image src={port} alt="andrew the coder" class="w-24 h-24 object-cover rounded-full md:hidden" />
+        <a class="uppercase text-xl hover:bg-black hover:text-white my-4 md:py-0 md:text-sm" href="/">home</a>
+        <a class="pl-1 uppercase text-xl hover:bg-black hover:text-white my-4 md:pl-0 md:text-sm" href="/about">about</a>
+        <a class="pl-1 uppercase text-xl hover:bg-black hover:text-white my-4 md:pl-0 md:text-sm" href="/projects">projects</a>
+        <a class="pl-1 uppercase text-xl hover:bg-black hover:text-white my-4 md:pl-0 md:text-sm" href="/blog">blog</a>
+        <a class="pl-1 uppercase text-xl hover:bg-black hover:text-white my-4 md:pl-0 md:text-sm" href="/contact">contact</a>
+      </div>
+    </div>
+  </nav>
+  <i id="toggle" class="fa-solid fa-navicon cursor-pointer absolute top-3 right-4 md:hidden"></i>
+</header>
