@@ -6,6 +6,7 @@ const postCollection = defineCollection({
     title: z.string(),
     blurb: z.string(),
     date: z.date(),
+    category: reference('categories'),
     author: reference('authors'),
     tags: z.array(z.string()),
     image: z.object({
@@ -28,7 +29,17 @@ const authorCollection = defineCollection({
   })
 })
 
+const categoryCollection = defineCollection({
+  type: 'data',
+  schema: z.object({
+    id: z.string(),
+    text: z.string(),
+    description: z.string()
+  })
+})
+
 export const collections = {
   'posts': postCollection,
-  'authors': authorCollection
+  'authors': authorCollection,
+  'categories': categoryCollection
 }

@@ -5,6 +5,7 @@ date: 2024-01-10
 author: andrew-s-erwin # references `src/content/authors/andrew-s-erwin.json`
 image: {src: './images/algorithms.jpg', alt: 'basic algorithms'}
 tags: ['computer science', 'algorithms']
+category: tech
 slug: a-basic-look-at-algorithms
 ---
 
