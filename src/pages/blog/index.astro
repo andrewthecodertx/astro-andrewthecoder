@@ -29,7 +29,7 @@ const getposts = filterByCategory(allposts, 'tech')
   <p class="text-center p-4">
     Here are some of my thoughts and musings. I hope you find them interesting.
   </p>
-  <div class="p-4 flex flex-col items-center md:flex-row md:align-top">
+  <div class="p-4 flex flex-col items-center md:flex-row md:align-top md:flex-wrap">
     {allposts.map(post => (
       <article class="m-6 pb-4 w-[300px] h-[550px] flex flex-col justify-between border-b border-solid md:border-none">
         <p>{post.category.data.text}</p>
@@ -43,7 +43,7 @@ const getposts = filterByCategory(allposts, 'tech')
         </div>
         <div class="flex-auto">
           <a class="underline underline-offset-8 block text-lg pb-4" href=`/blog/${post.slug}`>{post.data.title}</a>
-          <p class="">
+          <p>
             {post.data.blurb}
           </p>
         </div>

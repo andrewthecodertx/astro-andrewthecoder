@@ -1,6 +1,6 @@
 ---
 title: 'A Basic Look at Algorithms'
-blurb: 'Explore the fundamentals of algorithms in our newest blog post. From basic concepts to real-world applications, discover how algorithms shape our digital world. Get insights and clarity on this essential topic.'
+blurb: 'Explore the fundamentals of algorithms in our newest blog post. From basic concepts to real-world applications, discover how algorithms shape our digital world.'
 date: 2024-01-10
 author: andrew-s-erwin # references `src/content/authors/andrew-s-erwin.json`
 image: {src: './images/algorithms.jpg', alt: 'basic algorithms'}
