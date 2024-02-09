@@ -12,7 +12,7 @@ const postCollection = defineCollection({
     image: z.object({
       src: image(),
       alt: z.string()
-    })
+    }),
   })
 })
 

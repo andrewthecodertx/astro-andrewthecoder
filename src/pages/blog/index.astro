@@ -5,40 +5,56 @@ import MainLayout from '../../layouts/main.astro'
 import Title from '../../components/PageTitle.astro'
 import { format } from 'date-fns'
 
-const allposts = (await getCollection('posts')).sort((a, b) => 
+function filterByCategory(posts: typeof allposts, category: string) {
+  return posts.filter(post => post.data.category.id === category)
+}
+
+const posts = (await getCollection('posts')).sort((a, b) =>
   b.data.date.valueOf() - a.data.date.valueOf())
 
-const allpostswithauthors = await Promise.all(allposts.map(async (post) => {
-  const id = post.data.author.id
-  const author = await getEntry('authors', id)
+const allposts = await Promise.all(posts.map(async (post) => {
+  const authorid = post.data.author.id
+  const categoryid = post.data.category.id
 
-  return { ...post, author }
+  const author = await getEntry('authors', authorid)
+  const category = await getEntry('categories', categoryid)
+
+  return { ...post, author, category }
 }))
+
+const getposts = filterByCategory(allposts, 'tech')
 ---
-<MainLayout title='BLOG'>
+<MainLayout title='ANDREW THE CODER BLOG'>
   <Title text='the blogs' />
-  <p>
+  <p class="text-center p-4">
     Here are some of my thoughts and musings. I hope you find them interesting.
   </p>
-  {allpostswithauthors.map(post => (
-    <div class="p-4">
-      <Image src={post.data.image.src} alt={post.data.image.alt} width={300} height={170} />
-      <div class="">
-        {post.data.tags.map((tag: string) => (
-          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{tag}</span>
-        ))}
-      </div>
-      <p>{post.data.title}</p>
-      <p class="">
-        {post.data.blurb}
-      </p>
-      <div class="flex">
-        <Image src={post.author.data.image.src} alt={post.author.data.image.alt} width={50} height={50} class="rounded-full" />
-        <div class="pl-4">
-          <p>{post.author.data.name}</p>
-          <p>{format(new Date(post.data.date), 'MMMM d, yyyy')}</p>
+  <div class="p-4 flex flex-col items-center md:flex-row md:align-top">
+    {allposts.map(post => (
+      <article class="m-6 pb-4 w-[300px] h-[550px] flex flex-col justify-between border-b border-solid md:border-none">
+        <p>{post.category.data.text}</p>
+        <a href=`/blog/${post.slug}`>
+          <Image src={post.data.image.src} alt={post.data.image.alt} width={300} height={170} />
+        </a>
+        <div class="my-4">
+          {post.data.tags.map((tag: string) => (
+            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{tag}</span>
+          ))}
         </div>
-      </div>
-    </div>
-  ))}
+        <div class="flex-auto">
+          <a class="underline underline-offset-8 block text-lg pb-4" href=`/blog/${post.slug}`>{post.data.title}</a>
+          <p class="">
+            {post.data.blurb}
+          </p>
+        </div>
+        <div class="flex">
+          <Image src={post.author.data.image.src} alt={post.author.data.image.alt} class="rounded-full w-[60px] h-[60px] bg-cover" />
+          <div class="pl-2 text-sm flex flex-col justify-center">
+            <p>{post.author.data.name}</p>
+            <p>{format(new Date(post.data.date), 'MMMM d, yyyy')}</p>
+          </div>
+        </div>
+      </article>
+    ))}
+  </div>
 </MainLayout>
