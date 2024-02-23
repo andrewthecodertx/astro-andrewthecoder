@@ -2,8 +2,13 @@
 import MainLayout from '../layouts/main.astro'
 import Title from '../components/PageTitle.astro'
 
+let joke = null
 const res = await fetch('https://dadjokes.developersandbox.xyz/api/v1/random')
-const joke = await res.json()
+if(res.status == 200) {
+  joke = await res.json()
+} else {
+  joke = {'joke_text':'Dad Jokes API was not loaded properly!'}
+}
 
 const lat = '32.897480'
 const lon = '-97.040443'
@@ -58,7 +63,7 @@ const weatherInfo = {
     </div>
     <div id="dadjokes" class="md:w-1/2 w-full border-solid border-2 border-sky-500 text-center">
       <h3>Random Dad Joke</h3>
-      <p>{joke.joke_text}</p>
+      <p id="joke">{joke.joke_text}</p>
     </div>
   </div>
   <script>

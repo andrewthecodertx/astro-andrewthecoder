@@ -12,12 +12,15 @@ function filterByCategory(posts: typeof allposts, category: string) {
 const posts = (await getCollection('posts')).sort((a, b) =>
   b.data.date.valueOf() - a.data.date.valueOf())
 
+interface CollectionEntry<T> {
+}
+
 const allposts = await Promise.all(posts.map(async (post) => {
   const authorid = post.data.author.id
   const categoryid = post.data.category.id
 
-  const author = await getEntry('authors', authorid)
-  const category = await getEntry('categories', categoryid)
+  const author: Promise<any> | Promise<CollectionEntry<string> | undefined> = await getEntry('authors', authorid)
+  const category: Promise<any> | Promise<CollectionEntry<string> | undefined> = await getEntry('categories', categoryid)
 
   return { ...post, author, category }
 }))
