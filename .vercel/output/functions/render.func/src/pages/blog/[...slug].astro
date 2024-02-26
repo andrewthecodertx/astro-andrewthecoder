@@ -1,0 +1,22 @@
+---
+import MainLayout from '../../layouts/main.astro'
+import { getEntry } from 'astro:content'
+
+const { slug } = Astro.params
+const post = await getEntry('posts', slug as string)
+if(post === undefined) {
+  throw Error(`post not found: ${slug}`)
+}
+
+const { Content } = await post.render()
+---
+<MainLayout title={post.data.title}>
+  <p class="">
+    <a href="/" class="text-blue-600 hover:underline">home</a> /
+    <a href="/blog" class="text-blue-600 hover:underline">blog</a> /
+    <a href="/blog/{slug}" class="text-blue-600 hover:underline">{post.data.title}</a>
+  </p>
+  <div id="blogpost">
+    <Content />
+  </div>
+</MainLayout>

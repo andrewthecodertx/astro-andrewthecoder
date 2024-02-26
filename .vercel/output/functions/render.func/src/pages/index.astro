@@ -1,0 +1,71 @@
+---
+import MainLayout from '../layouts/main.astro'
+import Title from '../components/PageTitle.astro'
+
+let joke = null
+const res = await fetch('https://dadjokes.developersandbox.xyz/api/v1/random')
+if(res.status == 200) {
+  joke = await res.json()
+} else {
+  joke = {'joke_text':'Dad Jokes API was not loaded properly!'}
+}
+
+const lat = '32.897480'
+const lon = '-97.040443'
+const apiKey = '7247a109795f9890915f390e7cffb6cd'
+const apiurl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`
+
+const response = await fetch(apiurl)
+const data = await response.json()
+
+function windDir(deg: number) {
+  const dir = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW']
+  const index = Math.round(deg / 45) % 8
+
+  return dir[index]
+}
+
+function getIcon(icon: string) {
+  return `http://openweathermap.org/img/w/${icon}.png`
+}
+
+const weatherInfo = {
+  desc: data.weather[0].description,
+  temp: Math.floor(data.main.temp),
+  windchill: Math.floor(data.main.feels_like),
+  low: Math.floor(data.main.temp_min),
+  high: Math.floor(data.main.temp_max),
+  wind: Math.floor(data.wind.speed),
+  pressure: data.main.pressure,
+  humidity: data.main.humidity,
+  windDir: windDir(data.wind.deg),
+  image: getIcon(data.weather[0].icon),
+  dewpoint: Math.floor(data.main.dew_point),
+  visibility: data.visibility
+}
+---
+<MainLayout title='andrew the coder'>
+	<Title text="welcome to my corner of the web" />
+  <div class="md:flex md:justify-center m-1.5">
+    <div id="weather" class="w-full">
+      <h3>DFW Weather</h3>
+      <p>Feels like {weatherInfo.windchill}°F, {weatherInfo.desc}</p>
+      <div class="flex">
+        <div class="flex border-r-red-500 border-r-2 pr-3 items-center">
+          <img class="mr-2.5" src={weatherInfo.image} alt="current weather"/>
+          <span class="font-bold text-3xl">{weatherInfo.temp}°F</span>
+        </div>
+        <div class="flex flex-row items-center">
+          <span class="pl-2.5"><i class="fa-solid fa-wind" /> {weatherInfo.windDir} {weatherInfo.wind}m/h</span>
+          <span class="pl-2.5">Humidity: {weatherInfo.humidity}%</span>
+        </div>
+      </div>
+    </div>
+    <div id="dadjokes" class="md:w-1/2 w-full border-solid border-2 border-sky-500 text-center">
+      <h3>Random Dad Joke</h3>
+      <p id="joke">{joke.joke_text}</p>
+    </div>
+  </div>
+  <script>
+  </script>
+</MainLayout>
