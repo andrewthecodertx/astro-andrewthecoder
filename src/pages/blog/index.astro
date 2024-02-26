@@ -19,9 +19,6 @@ const allposts = await Promise.all(posts.map(async (post) => {
   const authorid: int = post.data.author.id
   const categoryid: int = post.data.category.id
 
-  const author: Promise<any> | Promise<CollectionEntry<string> | undefined> = await getEntry('authors', authorid)
-  const category: Promise<any> | Promise<CollectionEntry<string> | undefined> = await getEntry('categories', categoryid)
-
   return { ...post, author, category }
 }))
 
